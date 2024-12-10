@@ -397,9 +397,9 @@ We parameterized correlations in recruitment residuals among inlets from the cor
 
 
 ```{r echo=FALSE, fig.cap="**Figure 6**. Bubble plot of correlations in spawner abundances among inlets over time, 1994-2020."}
-remove.EnhStocks <- FALSE
+remove.EnhStocks <- TRUE
 CoreInd <- FALSE#TRUE
-AllExMH <- TRUE#FALSE
+AllExMH <- FALSE
 
 # wcviCKSRDat <- read.csv(paste(wcviCKDir, "/DataIn/Inlet_Sum.csv", sep=""))
 # wcviCKSRDat <- read.csv(paste(wcviCKDir, "/DataIn/Inlet_Sum_wEnh.csv", sep=""))
@@ -439,7 +439,7 @@ if(AllExMH){
     rownames(corMat) <- read.csv(paste(wcviCKDir, "SamSimInputs/CUPars_AllExMH.csv",sep="/"))$stkName
     colnames(corMat) <- read.csv(paste(wcviCKDir, "SamSimInputs/CUPars_AllExMH.csv",sep="/"))$stkName
 }
-png(filename=paste(wcviCKDir, "/Figures/SpawnerCorrelation_AllExMH.png", sep=""), width=4, height=4.5, units="in", res=500)
+png(filename=paste(wcviCKDir, "/Figures/SpawnerCorrelation.png", sep=""), width=4, height=4.5, units="in", res=500)
 par(xpd=TRUE)
 
 #corrplot(corMat, method="circle", p.mat=corMat, insig="p-value", type="lower", mar=c(5,4,3,2))

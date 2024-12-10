@@ -81,9 +81,9 @@ sourceAll()
 #(1)  Read-in WCVI Chinook data and plot:
 # =====================================================================
 setwd(wcviCKDir)
-remove.EnhStocks <- FALSE#TRUE#FALSE#TRUE
+remove.EnhStocks <- TRUE#FALSE#TRUE
 CoreInd <- FALSE
-AllExMH <- TRUE#FALSE
+AllExMH <- FALSE
 
 # Data to estimate correlation matrix
 if(!CoreInd & !AllExMH){
@@ -982,9 +982,9 @@ setwd(wcviCKDir)
 alphaScalar <- 1
 SREPScalar <- 1
 evenPars <- FALSE#TRUE
-remove.EnhStocks <- FALSE#TRUE
+remove.EnhStocks <- TRUE
 CoreInd <- FALSE #Core 6 indicators only
-AllExMH <- TRUE # all except major hatchery failities
+AllExMH <- FALSE#TRUE # all except major hatchery facilities
 
 # Only need to run once to create mcmcOut.csv file with a given assumed
 # distribution of alpha and SREP

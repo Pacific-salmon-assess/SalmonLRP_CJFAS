@@ -1,94 +1,213 @@
-# Retrospective Analysis of LRP Options
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 
-Primary contact: Kendra Holt, DFO (Kendra.Holt@dfo-mpo.gc.ca). Code developed by Kendra Holt & Brooke Davis, DFO. 
+# Projection-based reference points for Pacific salmon
+
+Contacts: 
+Carrie Holt, DFO (Carrie.Holt@dfo-mpo.gc.ca)
+Kendra Holt, DFO (Kendra.Holt@dfo-mpo.gc.ca). 
+
+Code developed by Kendra Holt and Carrie Holt, DFO. 
 
 ### Overview
 
-This repository contains the files necessary to run retrospective analyses of Limit Reference Point (LRP) options for Pacific Salmon stock management units (SMUs). Using this code, alternative LRP options can be evaluated based on the level of uncertainty associated with them and sensitivity to missing data. At present, the only case study included is Interior Fraser Coho, but this may be expanded in the future.
+This readme file provides steps to run projection-based reference points for West coast Vancouver Island (WCVI) Chinook salmon, as implemented for CJFAS special issue on the Wild Salmon Policy, WSP. The files needed to run these analyses are primarily in this repository "SalmonLRP_CJFAS", but some inputs files are generated in a second repository, "Watershed-Area-Model" repository, which contains files and code required to estimate benchmarks for WCVI Chinook, as noted below. 
 
-For the most part, LRPs options available for retrospective evaluation represent the aggregate SMU-level abundance level that has historically been associated with either (i) a specified probability that all CUs will be above their lower benchmarks or (ii) a specified proportion of CUs being above their lower benchmarks. LRPs are estimated using a logistic regression fit to historical data.   
+The "SalmonLRP_CJFAS" repository is forked from the "SalmonLRP_RetroEval" repository which provides code used to estimate projection-based reference points that are documented in Holt, K. et al. (2023), including WCVI Chinook as a case study.
 
-Code and associated files are organized into the following sub-folders:  
+The analyses and results from this repository are reported in Holt, C. et al. (in prep) for the CFJAS special issue on the WSP. Citations are listed below.
+
+Code and associated files are organized into the following sub-folders: 
+
 
 1. **Code**
- * Contains files/functions used to (i) estimate LRPs, (ii) run retrospective analyses of LRP estimation over multiple years and numbers of CUs, and (iii) plot results  
- * All files in this folder are intended to be generic code that can be applied to any stock aggregate
+ * Contains files/functions used to estimate projection LRPs. All files in this folder are intended to be generic code that can be applied to any stock aggregate. This code was developed for Holt, K. et al. (2023) to run for case studies on WCVI Chinook, Interior Fraser Coho, and South Coast Chum salmon, with if statements for individual SMUs were specificity is required.
  
-2. **IFCohoStudy**
- * Contains files specific to Interior Fraser Coho case study, including input data, outputs, sensitivity analyses, and master file from which Interior Fraser Coho retrospective analyses are run ("runFraserCoho.r")
-
-3. **SCChumStudy**
- * Contains files specific to South Coast Chum case study, including input data, outputs, and master file from which South Coast Chum retrospective analyses are run ("runSouthCoastChum.r") along with file that does escapement infilling ("")
-
-4. **WCVIChinookStudy**
- * Contains files specific to West Coast Vancouver Island Chum case study
-
-5. **Documents**
- * Miscellaneous word documents included for reference or created while formulating case studies 
-
-
-### Interior Fraser Coho Case Study
-
-*** Note: Some of the Interior Fraser Coho data are still provisional, and are not to be used for other purposes without permission from Michael Arbeider (Michael.Arbeider@dfo-mpo.gc.ca) ***
-
-This case study compares multiple LRP options for the Interior Fraser Coho Stock Management Unit (SMU), which is made up of 5 Conservation Units (Middle Fraser, Fraser Canyon, Lower Thompson, North Thompson, South Thompson). Lower benchmarks for each CU are obtained by fitting stock-recruitment models to CU-level data in order to estimate Sgen, which is the spawner abundance from which the CU can recover to Smsy within one generation in the absence of fishing. 
-
-Data were similar to those previously described in the 2018 Interior Fraser Coho RPA report (Appendix 4 of Arebider et al. 2020, available at http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2020/2020_025-eng.pdf); data treatments, assumptions, infilling, and data quality are described in detail in that document. More recent updates that are not described in the RPA report include the incorporation of three additional years of data (return years 2018-2020; brood years 2014-2016), updates to the smolt-to-adult marine survival rate index to use a weighted average by release size, and increased data quality screening of scale ages used to calculate the proportion of recruits at age (M. Arbeider, pers. comm).
+ 2. **WCVIChinookStudy**
+ * Contains files specific to West Coast Vancouver Island Chinook, which was a case study in Holt, K. et al. (2023), and the focus of Brown et al. (in revision). The Rproj files is run from this folder.
+ This folder contains subfolders:
+ 
+ **DataIn**: Folder of input data required for analyses described below in steps 3-7
+ 
+ **DataOut**: Folder of output data derived from analyses described below in steps 3-7.
+ 
+ **Figures**: Folder of figures generated from analyses described below in steps 3-7, and projection-based reference points in steps 9-12.
+ 
+ **RmdReports**: Folder of R Markdown reports generated for Holt, K. et al (2023) case study analysis on WCVI Chinook
+ 
+ **samSimInputs**: Folder of inputs required to projection-based reference points, executed using samSim R package (see Step 9 below).
+ 
+ **samSimOutputs**: Folder of outputs generated from estimation of projection-based reference points (see Step 9 below)
 
 
 
-<!--
+#### To run analyses, follow these steps:
 
-Aggregate LRPs are estimated using an integrated model coded in TMB that simultaneoulsy fits (i) CU-level stock-recruit models to estimate Sgen and (ii) a SMU-level logsitic regression model that estimates the aggregate abundance that has historically been associated with a specified proportion of CUs being above Sgen (binomial model) or the aggregate abundance that has historically been associated with all CUs having a specified probability of being above Sgen (bernoulli model).  
+**Step 1)** Open Rproj file in the 'SalmonLRP_WCVI_CK\WCVIChinookStudy' folder.
+File: 'SalmonLRP_WCVI_CK\WCVIChinookStudy\WCVIChinookStudy.Rproj'
 
-Retrospective analyses for the Interior Fraser Coho case study focus on the following choices:
+**Step 2)** Open 'runWCVIChinook_projLRP.r' file and run the 'Set-up:Libraries and Source Code' section
+File: runWCVIChinook_projLRP.r (Section: Set-up:Libraries and Source Code)
 
-1. Type of Ricker stock recruitment model used to estimate Sgen (i.e., choice of whether to include an informative prior distribution on carrying capacity)
-2. The use of hierarchical versus individual modelling approaches when fitting stock-recruit models
-3. Type of logistic regression used to define aggregate escapement level for LRP (bernoulli vs. binomial)
-4. The choice of threshold probability (or proportion) of CUs above Sgen that is used to identify the LRP
-
-In addition, questions about the effect of missing data on LRP estimates are evaluated by looking at:
-
-1. How LRP estimates vary with the number of years of available data
-2. How LRP estimates vary when data is only available from a subset of CUs
-
-The first two of these options (type of Ricker Model,  hierarchical vs. individual models) are implemented by calling one of four different TMB files to estimate LRPs (SR_HierRicker_Surv.cpp, SR_HierRicker_SurvCap.cpp, SR_IndivRicker_Surv.cpp, SR_IndivRicker_SurvCap.cpp; located in "LRP_RetroEval/Code/TMB_Files"). All other options are implemented by changing data and parameter inputs to these four TMB files.
+The following two steps (3 and 4) are required to generate inputs for projection-based reference points. These steps have been completed and saved to the repository, so analysts may skip to step 9 in this list below.
 
 
 
-#### Threshold benchmarks based on sub-population abundance
+**Step 3)** Generate a bubble plot of pairwise correlations in spawner abundances between inlets. 
 
-An alternative definition of CU-level benchmarks is also considered for Interior Fraser Coho to match work that has been undertaken by the **Interior Fraser Coho Recovery Team** and incorporated into the 2018 Recovery Potential Assessment (RPA; Arbeider et al. 2020). As part of this work, short- and long-term recovery targets are based on maintaining the diversity of 11 subpopulations nested within CUs. Using this approach, lower benchmarks are based on the proportion of sub-populations within a CU that are above a 1000-fish threshold. 
+*File*: CorrPlots.R 
 
-* A **short-term recovery target** was identified as the 3-year geometric average, natural-origin escapement for which *at least half* of the subpopulations within each of the five CUs exceeded 1,000 spawning Coho Salmon. 
+*Inputs*:
 
-* A **long-term recovery target** was identified as the 3-year geometric average, natural-origin escapement for which *all* the subpopulations within each of the five CUs exceeded 1,000 spawning Coho Salmon.     
+'DataIn/Inlet_Sum.csv' for summed spawner abundances to the inlet level, generated in Step 5 above
 
-The Interior Fraser Coho case study includes functions that retrospectively compare and plot LRPs based on sub-population diversity (using a 1000-fish threshold) with LRPs based on CU-level diversity (using Sgen).  TMB code to calculate LRPs based on sub-population diversity is located in "LRP_RetroEval/Code/TMB_Files/ThresholdAbund_Subpop1000.cpp".  
+'samSimInputs/CUPars.csv' for names of inlets
 
--->
+*Outputs*: 
 
-#### To run case study analyses, follow these steps:
+'Figures/SpawnerCorrelation.png', a bubble plot of pairwise correlations in spawner abundances
 
-1) Set working directory to "LRP_RetroEval\IFCohoStudy"
-
-2) Run code in "compareRickerModelTypes_SRonly.r". This file fits four types of spawner recruit models to data on total spawner abundance (natural + hatchery origin fish spawning in the wild) and natural-origin recruitment. Saved outputs are estimated parameter values (written to "DataOut/ModelFits"") and figures comparing SR fits for different models (saved to "Figures").
-
-2) Run code in "runFraserCoho.r". This file runs all of the analyses for aggregate abundance-based LRP options using the logistic regression approach.  It includes code to run retrospective analyses of logistic regression-based LRPs, calculate model diagnostics for logistic regression fits, and create results plots.
-
-3) Run code in "runFraserCoho_projLRP.r". This file runs all of the analyses for aggregate abundance-based LRP options using the projection-based approach, including MCMC fits of spawner recruit models to parameterize forward projections, calls to samSim modelling tool to run projections, sensitivity analyses, and results plots.  
-
-4) Run code in "runFraserCoho_multidimStatus.r". This file runs a partial version of the State of the Salmon multidimensional scanning tool using their decision tree 3 (which, is located in "Code/getMultiDimStatus.r"); it is partial because it only includes nodes that are relevant to data available for Interior Fraser Coho.
-* Note that in order to run this code, the "compareRickerModelTypes_SRonly.r" file described above must first be run to create Sgen estimates. 
-
-5) Run code in "makeMethodComparisonPlots.r". This code draws from outputs from all of the above analyses and creates a figure that compares estimated status relative to LRPs for all of the LRP options considered. All of the above analyses must be run in order to support this code.  
+*Required for*: Figure in manuscript.
 
 
 
-### Analysis outputs
-(Note: The drop-box folder should be updated with final outputs once available)
 
-Current model outputs, including .csv files of estimated parameters and plots, are posted to a dropbox site that can be accessed at:
-https://www.dropbox.com/sh/otiku88jc2eu8cx/AACagLQd85blX7jc8-yBYs4Na?dl=0
+**Step 3)** Manually complete input files of inlet-specific parameters for projections.
+
+*File*: samSimInput/CUPars.csv
+
+*Inputs*: 
+
+column manUnit = WCVIChinook (stock management unit, SMU)
+
+column stk = (each inlet numbered sequentially)
+
+column model = ricker (default stock-recruitment model assumption)
+
+column minER = 0.05 (minimum exploitation rate assuming minimal unavoidable level of bycatch)
+
+column usERscalar = 1 (scalar applied for additional US harvest, assumed default 1)
+
+column canERscalar = 1 (scalar applied for additional CDN harvest, assumed default 1)
+
+column tauCycAge = tau parameter of the multivariate logistic distribution of proportion of ages in recruitment, which can be estimated from time-series of ages at maturity. For an example, see Github repository, "pacific-salmon-assess/SalmonLRP_WCVI_CK".
+
+column alpha = ln alpha parameter in Ricker model by inlet (all inlets within a CU identical)
+
+column beta0 = beta parameter of the Ricker model by inlet
+
+column sigma = SD of Ricker residuals by inlet (all inlets within a CU identical)
+
+column aveGenTime = 4 (average generation time in years)
+
+column ageFirstRec = 2 (age at first recruitment)
+
+column ageMaxRec = 4 (generation time used to set length of the initialization period [=ageMaxRec*10], and is set to 4 here)
+
+columns meanRec2, meanRec3, meanRec4, meanRec5, meanRec6 = mean proportion of ages in recruitment by inlet (all inlets within a CU identical)
+
+column Sinit = initial spawner abundances, set to spawners at equilibrium
+
+The following columns are not used:  domCycle, cvER, coef1, covarInit, mu_logCovar1, sig_logCovar1, min_logCovar, max_logCovar, larkAlpha, larkBeta0, larkBeta1, larkBeta2, larkBeta3, larkSigma, medianRec, lowQRec, highQRec, meanDBE, sdDBE, medMA, meanForecast, sdForecast 
+
+*Output*: updated samSimInput/CUPars.csv
+
+*Required for*: Generating random draws of Ricker model to be used in projections (Step 4 below) and running projections for projection-based reference points (Step 5 below)
+
+**Step 4)** Generate a series of random draws for Ricker model to be used in the projections. These are generated and saved a priori to allow for comparison in outputs for scenarios when bias adjustment from back-transformation of log-normal deviates is not included (default is to include this bias adjustment) 
+
+*File*: 'runWCVIChinook_projLRP.R' (Section 7) 
+
+*Inputs*:
+
+'samSimInputs/CUPars.csv' for inlet names, and productivity  (ln alpha) and sigma (SD of Ricker recruitment deviations) by inlet
+
+'DataIn/WCVI_SMSY_wEnh_wBCcsv' for SREP estimates based on accessible watershed area model
+Note to Carrie: I could update SREP estimates and CUPars based on Brown et al revisions: adding bc to WA regression, sampling of SREP in boostrap, changing tau, 
+
+*Outputs*:
+
+'SamSimInputs/Ricker_mcmc_AllExMH.csv' file of random draws for Ricker parameters
+
+'Figures/AlphaDensity.png', figure of density in ln alpha values from random draws
+
+'Figures/SREPDensity.png', figure of density of SREP values from random draws
+
+*Required for*: Running projection-based reference points (Step 9 below)
+
+**Step 9)** Run projections to derive projection-based reference points. This code requires R package, samSim (branch LRP), which is sourced in the code below. See samSim repository (https://github.com/Pacific-salmon-assess/samSim/tree/LRP) for code, and Holt, K. et al. (2023) Appendix B for equations and documentation.
+
+*File*: runWCVIChinook_projLRP.R file (See Section 3). This section sources the generic function, run_scenarioProj() in the Code subfolder to generate projections.
+
+
+*Inputs*:
+
+'samSimInputs/CUPars_AllExMH.csv' (see Step 7 above)
+
+'samSimInputs/Ricker_mcmc_AllExMH.csv' (see Step 8 above)
+
+*Outputs*:
+
+'SamSimOutputs/diagnostics/baseER_AllExMH/baseER_AllExMH_baseER_singleTrialFig.pdf' Example trajectory from a single Monte Carlo trial in sub-directory, labeled by scenarioName 
+
+'SamSimOutputs/simData/projLRPDat_baseER_AllExMH.csv' Projection data to estimate projection based reference point, where file is labeled by the scenarioName
+
+'SamSimOutputs/simData/projSpawnDat_baseER_AllExMH.csv' Projected spawner-recruit time-series by CU (or inlet), where file is labeled by the scenarioName
+
+'SamSimOutputs/simData/baseER_AllExMH/' standard outputs from samSim, where the sub-directory is labelled by scenarioName. See repository, 'samSim' (LRP branch) for code, and Holt, K. et al. (2023) Appendix B for equations and documentation.
+
+*Required for*: Generating projection-based reference points and figure of projections
+
+**Step 10)** Compile output file documenting whether individual inlets were above their lower benchmarks for each MC trial (this step is supplemental and is only needed to plot individual inlets on aggregate reference points plot, see 'Required for' section below).
+
+*File*: 'CUppnLB.R'
+
+*Inputs*:
+
+'SamSimOutputs/simData/baseER_AllExMH/baseER_AllExMH_baseER_CUaboveLB.RData', created in step 9 above.
+
+'SamSimOutputs/simData/baseER_AllExMH/baseER_AllExMH_baseER_lrpdat.csv', created in step 9 above.
+
+*Outputs*:
+
+'SamSimOutputs/simData/projCUBenchDat_baseER_AllExMH.csv'
+
+*Required for*: Plotting projection-based reference points with specified probability of all inlets being above lower benchmarks along a gradient in aggregate spawner abundances, with the probabilities of individual inlets being above their lower benchmarks overlaid (Step 11)
+
+**Step 11)** Plot projection results: binned aggregate abundances against the proportion of Monte Carlo trials in that bin where all component inlets were above their lower benchmark. From this plot, projection-based reference points can be identified at various probability levels. Overlain on this plot is the probability of individual inlets being above their lower benchmark.
+
+*File*: runWCVIChinook_projLRP.r (see Section 12).
+
+*Inputs*: 
+
+'SamSimOutputs/simData/projLRPDat_baseER_AllExMH.csv', output from samSim that shows in which Monte Carlo trial and year all inlets were above their lower benchmarks.
+
+'SamSimOutputs/simData/projCUBenchDat_baseER_AllExMH.csv', output file derived in step 10.
+
+'SamSimInputs/CUPars_AllExMH.csv' for list of inlet names
+
+*Outputs*:
+
+'Figures/ProjectedLRPs/baseER_AllExMH-ProjLRPCurve-ALLp.png' for figure showing projection-based reference point for various probabilities of all inlets being above lower benchmarks, with individual inlet probabilities included.
+
+'DataOut/ProjectedLRPs/ProjectedLRPsbaseER_AllExMH_ALLp.csv' for projection-based reference points at various probabilities
+
+'DataOut/ProjectedLRPs/ProjectedLRP_databaseER_AllExMH_Allp.csv' for underlying binned data used to generate Figure of probabilities of all inlets being above lower benchmarks along gradient in aggregate abundances, above.
+
+**Step 12)** Run sensitivity analyses for projection-based reference points, generated in Step 9. Note, these were run extensively in Holt, K. et al. (2023), but not for Brown et al. (in revision).
+
+*File*: runWCVIChinook_projLRP.r (see Section 4)
+
+*Inputs*: as in Step 9, for various alternative assumptions
+
+*Outputs*: as in Step 9, for various alternative assumptions
+
+
+#### Citations
+Brown, N. et al. (in revision). West Coast of Vancouver Island Natural-Origin Chinook Salmon (Oncorhynchus tshawytscha) Stock Assessment. CSAS Working Paper20xx/nnn.
+
+Holt, K.R., Holt, C.A., Warkentin, L., Wor, C., Davis, B., Arbeider, M., Bokvist, J., Crowley, S., Grant, S., Luedke, W., McHugh, D., Picco, C., and Van Will, P. 2023. Case Study Applications of LRP Estimation Methods to Pacific Salmon Stock Management Units. DFO Can. Sci. Advis. Sec. Res. Doc. 2023/010. iv+129p.
 
