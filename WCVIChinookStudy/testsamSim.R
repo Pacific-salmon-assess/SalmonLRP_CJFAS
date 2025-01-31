@@ -1,6 +1,14 @@
-genericRecoverySim(simPars[4, ], cuPar=CUpars, srDat=recDatTrim,
+genericRecoverySim(simPars[1, ], cuPar=CUpars, srDat=recDatTrim,
         variableCU=FALSE, ricPars=mcmcOut, cuCustomCorrMat = corMatrix,
-         nTrials=nProj, makeSubDirs=FALSE, random=FALSE, outDir="C:/github/SalmonLRP_RetroEval/WCVIChinookStudy")
+         nTrials=nProj, makeSubDirs=FALSE, random=FALSE, outDir="C:/github/SalmonLRP_CJFAS/WCVIChinookStudy")
+
+genericRecoverySim(x, cuPar=CUpars, srDat=recDatTrim,
+                   variableCU=FALSE, ricPars=mcmcOut,
+                   cuCustomCorrMat = corMatrix,
+                   nTrials=nProj, makeSubDirs=FALSE,
+                   random=FALSE, outDir=outDir)
+
+
 
 simPar <- simPars[1,]
 cuPar <- CUpars

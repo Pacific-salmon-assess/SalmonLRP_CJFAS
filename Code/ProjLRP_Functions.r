@@ -190,6 +190,11 @@ run_ScenarioProj <- function(SRDat, BMmodel, scenarioName, useGenMean, genYrs,
                                     sep="/"))
         }
 
+        if(alphaScalar==1.25 & SREPScalar==1){
+          mcmcOut <- read.csv(paste(outDir,"SamSimInputs/Ricker_mcmc_alphaScalar1.25_SREPScalar1.csv",
+                                    sep="/"))
+        }
+
         if(alphaScalar==1 & SREPScalar==1.5){
           mcmcOut <- read.csv(paste(outDir,"SamSimInputs/Ricker_mcmc_alphaScalar1_SREPScalar1.5.csv",
                                     sep="/"))
@@ -544,6 +549,10 @@ run_ScenarioProjParallel <- function(SRDat, BMmodel, scenarioName, useGenMean,
         }
         if(alphaScalar==1.5 & SREPScalar==1){
           mcmcOut <- read.csv(paste(outDir,"SamSimInputs/Ricker_mcmc_alphaScalar1.5_SREPScalar1.csv",
+                                    sep="/"))
+        }
+        if(alphaScalar==1.25 & SREPScalar==1){
+          mcmcOut <- read.csv(paste(outDir,"SamSimInputs/Ricker_mcmc_alphaScalar1.25_SREPScalar1.csv",
                                     sep="/"))
         }
         if(alphaScalar==0.5 & SREPScalar==1){

@@ -1,9 +1,9 @@
 
 
-library(tidyverse)
-library(ggplot2)
-library(viridis)
-library(corrplot)
+# library(tidyverse)
+# library(ggplot2)
+# library(viridis)
+# library(corrplot)
 
 setwd('..')
 rootDir<-getwd()
