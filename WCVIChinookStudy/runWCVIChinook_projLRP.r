@@ -1,6 +1,6 @@
 # ==============================================================================
 # Calculation of Projected Limit Reference Points for CJFAS special issue
-# Carrie Holt, Last update: Jan 2025
+# Carrie Holt, Last update: 2 Feb 2025
 # ==============================================================================
 
 # Projected LRPs represent the aggregate abundance that is associated with a
@@ -671,9 +671,8 @@ colnames(mcmc_even) <- c("stk", "alpha", "beta", "sigma", "SREP", "stkName", "al
 # ==================================================================
 
 # Specify threshold to use when calculating LRP
-# # Note: may want to loop over probThresholds as well; still needs to be added
 propCUThresh <- 1.0 # required proportion of CUs above lower benchmark
-probThresh<-c(0.50,0.66)#, 0.75, 0.95)#,0.9, 0.99) # probability theshhold; the LRP is set as the aggregate abundance that has this
+probThresh<-c(0.50,0.66)# probability theshhold; the LRP is set as the aggregate abundance that has this
 # probability that the propCUThreshold is met
 plot.CUs <- FALSE
 
@@ -681,6 +680,7 @@ plot.CUs <- FALSE
 # These scenarios will be looped over below with a LRP (and LRP plot) saved for each scenario
 OMsToInclude<-c(
   "baseER")
+  ## Uncomment various OMs for different sensitivity analyses, below
   # "ER0",
   # "ER0.05",
   # "ER0.10",
@@ -689,10 +689,9 @@ OMsToInclude<-c(
   # "ER0.25",
   # "baseER",
   # "ER0.35",
-  # "ER0.4")#,
-  # "ER0.45")
+  # "ER0.4")
   # "alphaScalar0.75n50000",
-  # "baseER",#"baseERn10000",
+  # "baseER",
   # "alphaScalar1.25n50000")
 
 

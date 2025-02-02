@@ -180,11 +180,11 @@ The following columns are not used:  domCycle, cvER, coef1, covarInit, mu_logCov
 
 **Step 8)** Run sensitivity analyses for projection-based reference points, generated in Step 6. See documentation of sensitivity analyses in Holt, K. et al. (2023).
 
-*File*: runWCVIChinook_projLRP.r (see Section 4)
+*File*: runWCVIChinook_projLRP.r (see Section 4 fpr modelruns, and Section 6 for plotting). In Section 6, specify the operating models (OMs) to include in the figures corresponding to the sensitivity anlyses chosen in Section 4
 
-*Inputs*: as in Step 6, for various alternative assumptions
+*Inputs*: as in Step 6 and 7, for various alternative assumptions
 
-*Outputs*: as in Step 6, for various alternative assumptions
+*Outputs*: as in Step 6 and 7, for various alternative assumptions
 
 
 #### Citations
