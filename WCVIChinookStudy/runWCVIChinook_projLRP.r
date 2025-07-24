@@ -58,6 +58,9 @@ needed <- setdiff(pkgs, have)
 
 please_install(needed)
 
+for (i in pkgs) { #Installs packages if not yet installed
+  if (!require(i, character.only = TRUE)) install.packages(i)
+}
 
 setwd('..')
 rootDir<-getwd()
@@ -1060,12 +1063,15 @@ for (OM in 1:length(OMsToInclude)){
 
     if (length(OMsToInclude == 9)) lrp.lwd <- 1
     if (length(OMsToInclude != 9)) lrp.lwd <- 2
-    abline(h=probThresh[i], lty=2, lwd=lrp.lwd)
+    # abline(h=probThresh[i], lty=2, lwd=lrp.lwd)
+    abline(h=probThresh[1], lty=2, col="#E69F00",lwd=lrp.lwd)
     # if(OMsToInclude[OM]!="alphaScalar1.25n50000") {
-      if (i==1) abline(v=LRP[i], col="#E69F00", lwd=lrp.lwd)
+      if (i==1) lines(x=c(LRP[i], LRP[i]), y=c(-0.1, probThresh[i]), col="#E69F00")#abline(v=LRP[i], col="#E69F00", lwd=lrp.lwd)
       # }# "orange" "#E69F00",
-    if(OMsToInclude[OM]!="alphaScalar0.75n50000"&OM < 8) { if (i==2)
-      abline(v=LRP[i], col="#56B4E9", lwd=lrp.lwd) }#viridis(4, alpha=0.3)[3] #"adjustcolor("#56B4E9", alpha.f = 0.5)
+    if(OMsToInclude[OM]!="alphaScalar0.75n50000"&OM < 8) {
+      abline(h=probThresh[2], lty=2, col="#56B4E9",lwd=lrp.lwd)
+      if (i==2) lines(x=c(LRP[i], LRP[i]), y=c(-0.1, probThresh[i]), col="#56B4E9") }
+      #abline(v=LRP[i], col="#56B4E9", lwd=lrp.lwd) }#viridis(4, alpha=0.3)[3] #"adjustcolor("#56B4E9", alpha.f = 0.5)
     # if(OMsToInclude[OM]!="alphaScalar0.75"&OM < 7) { if (i==3)
     #   abline(v=LRP[i], col="#009E73", lwd=lrp.lwd) }#viridis(4, alpha=0.3)[3] #"adjustcolor("#56B4E9", alpha.f = 0.5)
     # if(OMsToInclude[OM]!="alphaScalar0.75"&OM < 7) { if (i==4)
